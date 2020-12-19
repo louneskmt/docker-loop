@@ -1,4 +1,4 @@
-ARG VERSION=v0.9.0-beta
+ARG VERSION=v0.11.2-beta
 
 FROM golang:1.13-alpine as builder
 
@@ -21,6 +21,8 @@ RUN apk add --no-cache --update alpine-sdk \
 
 # Start a new, final image to reduce size.
 FROM alpine as final
+
+USER 1000
 
 # Expose lnd ports (server, rpc).
 EXPOSE 8081 11010
