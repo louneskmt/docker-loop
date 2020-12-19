@@ -22,6 +22,11 @@ RUN apk add --no-cache --update alpine-sdk \
 # Start a new, final image to reduce size.
 FROM alpine as final
 
+# Add bash.
+RUN apk add --no-cache \
+    bash \
+    ca-certificates
+
 USER 1000
 
 # Expose lnd ports (server, rpc).
@@ -30,10 +35,5 @@ EXPOSE 8081 11010
 # Copy the binaries and entrypoint from the builder image.
 COPY --from=builder /go/bin/loopd /bin/
 COPY --from=builder /go/bin/loop /bin/
-
-# Add bash.
-RUN apk add --no-cache \
-    bash \
-    ca-certificates
 
 ENTRYPOINT [ "/bin/loopd" ]
